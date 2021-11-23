@@ -133,7 +133,7 @@ def open_level(level1, level2, mouse):
     open_coords = []
     for coord in coords:
         x, y = (mouse[0] + coord[0], mouse[1] + coord[1])
-        print(x, y, 0 <= x <= len_x - 1 and 0 <= y <= len_y - 1)
+        # print(x, y, 0 <= x <= len_x - 1 and 0 <= y <= len_y - 1)
         if 0 <= x <= len_x - 1 and 0 <= y <= len_y - 1:
             if level1[y][x] in ['1', '2', '3', '4', '5', '6', '7', '8']:
                 level2[y][x] = level1[y][x]
@@ -225,7 +225,7 @@ def play(*args):
         check_won(level1, level2)
         if click[0] == 1:
             if not create:
-                print('create')
+                # print('create')
                 level1, level2 = create_level(mouse)
                 create = True
             if level2[mouse[1]][mouse[0]] in ['f', '?']:
@@ -242,7 +242,7 @@ def play(*args):
                     level2[mouse[1]][mouse[0]] = level1[mouse[1]][mouse[0]]
                 pygame.time.delay(100)
         if click[2] == 1:
-            print(mouse[0])
+            # print(mouse[0])
             if level2[mouse[1]][mouse[0]] == 'c':
                 level2[mouse[1]][mouse[0]] = 'f'
                 pygame.time.delay(100)
