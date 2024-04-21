@@ -10,7 +10,6 @@ images = {'0': 'empety2.bmp', '1': '1.bmp', '2': '2.bmp', '3': '3.bmp', '4': '4.
           '6': '6.bmp', '7': '7.bmp', '8': '8.bmp', '?': 'question.bmp', 'f': 'mark.bmp',
           'b': 'bomb.bmp', 'c': 'empty.bmp'}
 
-
 class Button:
     def __init__(self, width, height, x, y, message, inactive_color=(23, 50, 58),
                  active_color=(23, 100, 58)):
@@ -72,7 +71,7 @@ class ImageButton(Button, Image):
         if self.x < mouse[0] < self.x + self.width and self.y < mouse[1] < self.y + self.height:
             if click[0] == 1 and target is not None:
                 pygame.mixer.Sound.play(button_sound)
-                pygame.time.delay(250)
+                # pygame.time.delay(250)
                 target()
         self.image_b.draw()
 
@@ -204,6 +203,7 @@ clock = pygame.time.Clock()
 
 
 def play(*args):
+    flag_mouse_up = True
     level1, level2 = create_level(pygame.mouse.get_pressed())
     f = False
     create = False
@@ -217,13 +217,14 @@ def play(*args):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
         for button in buttons:
             button.draw()
         pygame.display.update()
         click = pygame.mouse.get_pressed()
         mouse = (pygame.mouse.get_pos()[0] // 60, pygame.mouse.get_pos()[1] // 60)
         check_won(level1, level2)
-        if click[0] == 1:
+        if click[0] == 1 and flag_mouse_up:
             if not create:
                 # print('create')
                 level1, level2 = create_level(mouse)
@@ -241,7 +242,8 @@ def play(*args):
                 else:
                     level2[mouse[1]][mouse[0]] = level1[mouse[1]][mouse[0]]
                 pygame.time.delay(100)
-        if click[2] == 1:
+        if click[2] == 1 and flag_mouse_up:
+            flag_mouse_up = False
             # print(mouse[0])
             if level2[mouse[1]][mouse[0]] == 'c':
                 level2[mouse[1]][mouse[0]] = 'f'
@@ -249,6 +251,8 @@ def play(*args):
             elif level2[mouse[1]][mouse[0]] == 'f':
                 level2[mouse[1]][mouse[0]] = '?'
                 pygame.time.delay(100)
+        elif click[2] == 0:
+            flag_mouse_up = True
         clock.tick(60)
 
 
